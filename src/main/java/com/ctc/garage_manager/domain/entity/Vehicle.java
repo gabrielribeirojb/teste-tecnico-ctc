@@ -11,10 +11,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "vehicles")
 public class Vehicle {
 
     @Id
+    @EqualsAndHashCode.Include
     private String licensePlate;
 
     private LocalDateTime entryTime;

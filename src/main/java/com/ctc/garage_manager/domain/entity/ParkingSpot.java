@@ -9,14 +9,17 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "parking_spots")
 public class ParkingSpot {
 
     @Id
     private Long id;
 
+    @EqualsAndHashCode.Include
     private Double lat;
 
+    @EqualsAndHashCode.Include
     private Double lng;
 
     @ManyToOne(fetch = FetchType.LAZY)
