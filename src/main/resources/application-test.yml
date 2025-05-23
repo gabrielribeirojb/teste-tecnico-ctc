@@ -20,3 +20,7 @@ spring:
 logging:
   level:
     root: WARN
+
+garage:
+  init:
+    enabled: false
