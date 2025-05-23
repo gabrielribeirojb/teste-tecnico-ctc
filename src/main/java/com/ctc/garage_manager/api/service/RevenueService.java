@@ -2,6 +2,7 @@ package com.ctc.garage_manager.api.service;
 
 import com.ctc.garage_manager.api.dto.RevenueResponse;
 import com.ctc.garage_manager.domain.repository.RevenueRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class RevenueService {
 
         var revenue = revenueRepository
                 .findBySectorAndTimestampBetween(sector, startOfDay, endOfDay)
-                .orElseThrow(() -> new RuntimeException("Nenhuma receita encontrada para o setor informado."));
+                .orElseThrow(() -> new EntityNotFoundException("Nenhuma receita encontrada para o setor informado."));
 
         return RevenueResponse.builder()
                 .amount(revenue.getAmount())

@@ -6,6 +6,7 @@ import com.ctc.garage_manager.domain.entity.ParkingSpot;
 import com.ctc.garage_manager.domain.entity.Sector;
 import com.ctc.garage_manager.domain.entity.Vehicle;
 import com.ctc.garage_manager.domain.repository.VehicleRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +23,13 @@ public class PlateStatusService {
 
     public PlateStatusResponse getStatus(PlateStatusRequest request) {
         Vehicle vehicle = vehicleRepository.findByLicensePlate(request.getLicensePlate())
-                .orElseThrow(() -> new RuntimeException("Veículo não encontrado."));
+                .orElseThrow(() -> new EntityNotFoundException("Veículo não encontrado."));
 
         ParkingSpot spot = vehicle.getParkingSpot();
-        if (spot == null) throw new RuntimeException("Vaga não associada ao veículo.");
+        if (spot == null) throw new EntityNotFoundException("Vaga não associada ao veículo.");
 
         Sector sector = spot.getSector();
-        if (sector == null) throw new RuntimeException("Setor não encontrado.");
+        if (sector == null) throw new EntityNotFoundException("Setor não encontrado.");
 
         ZonedDateTime entryTime = vehicle.getEntryTime().atZone(ZoneId.systemDefault());
         ZonedDateTime now = ZonedDateTime.now();

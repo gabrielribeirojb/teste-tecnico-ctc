@@ -17,6 +17,6 @@ public class PlateStatusController {
 
     @PostMapping
     public ResponseEntity<PlateStatusResponse> getPlateStatus(@RequestBody @Valid PlateStatusRequest request) {
-        return ResponseEntity.ok(plateStatusService.getStatusByPlate(request.getLicensePlate()));
+        return ResponseEntity.ok(plateStatusService.getStatus(request));
     }
 }
