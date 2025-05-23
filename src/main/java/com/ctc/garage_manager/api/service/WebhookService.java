@@ -3,6 +3,7 @@ package com.ctc.garage_manager.api.service;
 import com.ctc.garage_manager.api.dto.WebhookEventRequest;
 import com.ctc.garage_manager.domain.entity.*;
 import com.ctc.garage_manager.domain.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,10 +49,10 @@ public class WebhookService {
         log.info("[WebhookService] - Processando estacionamento: {}", request.getLicensePlate());
 
         ParkingSpot spot = parkingSpotRepository.findByLatAndLng(request.getLat(), request.getLng())
-                .orElseThrow(() -> new RuntimeException("Vaga não encontrada."));
+                .orElseThrow(() -> new EntityNotFoundException("Vaga não encontrada."));
 
         Vehicle vehicle = vehicleRepository.findByLicensePlate(request.getLicensePlate())
-                .orElseThrow(() -> new RuntimeException("Veículo não encontrado."));
+                .orElseThrow(() -> new EntityNotFoundException("Veículo não encontrado."));
 
         vehicle.setParkingSpot(spot);
         vehicle.setTimeParked(ZonedDateTime.now());
@@ -63,7 +64,7 @@ public class WebhookService {
         log.info("[WebhookService] - Processando saída: {}", request.getLicensePlate());
 
         Vehicle vehicle = vehicleRepository.findByLicensePlate(request.getLicensePlate())
-                .orElseThrow(() -> new RuntimeException("Veículo não encontrado."));
+                .orElseThrow(() -> new EntityNotFoundException("Veículo não encontrado."));
 
         ZonedDateTime entryTime = vehicle.getEntryTime().atZone(ZoneId.systemDefault());
         ZonedDateTime exitTime = request.getExitTime();
@@ -72,7 +73,7 @@ public class WebhookService {
 
         Sector sector = Optional.ofNullable(vehicle.getParkingSpot())
                 .map(ParkingSpot::getSector)
-                .orElseThrow(() -> new RuntimeException("Setor da vaga não encontrado."));
+                .orElseThrow(() -> new EntityNotFoundException("Setor da vaga não encontrado."));
 
         int capacity = sector.getMaxCapacity();
         long occupied = vehicleRepository.countByParkingSpotSector(sector);

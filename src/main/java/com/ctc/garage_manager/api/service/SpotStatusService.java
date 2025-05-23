@@ -6,6 +6,7 @@ import com.ctc.garage_manager.domain.entity.ParkingSpot;
 import com.ctc.garage_manager.domain.entity.Vehicle;
 import com.ctc.garage_manager.domain.repository.ParkingSpotRepository;
 import com.ctc.garage_manager.domain.repository.VehicleRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class SpotStatusService {
 
     public SpotStatusResponse getStatus(SpotStatusRequest request) {
         ParkingSpot spot = parkingSpotRepository.findByLatAndLng(request.getLat(), request.getLng())
-                .orElseThrow(() -> new RuntimeException("Vaga não encontrada."));
+                .orElseThrow(() -> new EntityNotFoundException("Vaga não encontrada."));
 
         Optional<Vehicle> vehicleOpt = vehicleRepository.findByParkingSpot(spot);
 
