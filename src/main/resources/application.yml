@@ -3,9 +3,9 @@ spring:
     active: dev
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/teste
-    username:
-    password:
+    url: jdbc:postgresql://localhost:5432/garage
+    username: postgres
+    password: admin321
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -24,3 +24,7 @@ logging:
   level:
     root: INFO
     com.ctc: DEBUG
+
+garage:
+  init:
+    enabled: true
