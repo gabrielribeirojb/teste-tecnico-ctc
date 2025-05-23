@@ -1,4 +1,4 @@
-package com.ctc.garage_manager.controller;
+package com.ctc.garage_manager.api.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

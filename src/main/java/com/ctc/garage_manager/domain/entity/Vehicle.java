@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 @Getter
@@ -22,6 +23,8 @@ public class Vehicle {
     private LocalDateTime entryTime;
 
     private LocalDateTime exitTime;
+
+    private ZonedDateTime timeParked;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parking_spot_id")
